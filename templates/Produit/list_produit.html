@@ -1,0 +1,88 @@
+{% block list_produit %}
+
+
+
+
+
+<div class="row ">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Liste de produits</h4>
+        <div id="div">
+        <form class="form-inline" method="GET" >
+          <div class="form-group mb-2">
+            <label for="recherche" class="sr-only" id="recherche">Recherche</label>
+            <input type="text" 
+            id="recherche" 
+            class="form-control" 
+            name="p" value="{{ query }}" 
+            placeholder="Rechercher..."
+            hx-get='{% url "liste_client" %}'
+            hx-target="#tbody" 
+            hx-swap="outerHTML" >
+          </div>           
+          <button type="submit" 
+          class="btn btn-primary mb-2" 
+          name="p" value="{{ query }}" 
+          placeholder="Rechercher..."
+          hx-get='{% url "liste_client" %}'
+          hx-target="#tbody" 
+          hx-swap="outerHTML">Rechercher</button>
+        </form>
+          <div>
+          {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+                  <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+              {% endfor %}
+          {%endif %}
+          </div>
+      </div>
+      </div>
+        <div class="table-responsive">
+          <table class="table" id="table-factures">
+            <thead>
+              <tr>
+                <th> Libelle</th>
+                <th> Stock</th>
+                <th> Position </th>
+                <th> Couleur</th>  
+                <th>Actions</th>                 
+              </tr>
+            </thead>
+            <tbody id="tbody" >
+              {% for f in produits %}
+              <tr> 
+                <td>{{f.libelle}}</td>
+                <td>{{f.stock}}</td>
+                <td> {{f.position}}</td>
+                <td> {{f.couleur}}</td>
+                <td >              
+                  <a href=""
+                  hx-delete="{% url 'sup_produit' f.id %}"
+                  hx-confirm="Etes-vous de sure de vouloir suprimer ce produit?"
+                  hx-target="closest tr" 
+                  hx-swap="outerHTML" >
+                  <i class="fas fa-trash"></i>
+                  </a>
+                  <a hx-get="{% url 'afficher_produit' f.id %}"
+                      hx-target="#forms"
+                      hx-swap="outerHTML">
+                      <i class="fas fa-edit"></i>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+{% endblock %}

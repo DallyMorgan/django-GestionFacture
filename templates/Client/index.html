@@ -1,0 +1,140 @@
+ <!-- partial -->
+ {% extends "base.html" %}
+ {% block content %}
+ 
+
+
+ <style>
+
+  #date{
+    position: relative;
+    right: 10px;
+  }
+  
+ #div{
+  display: flex;
+  justify-content: space-between;
+ }
+ #div1{
+  display: flex;
+  justify-content: space-between;
+ }
+  #select{
+    position: relative;
+    left: 300px;
+  }
+  #resetTable{
+    position: relative;
+    left: 400px;
+  }
+    #recherche{
+        margin: 10px;
+  }
+     #btn{
+      position: relative;
+      right: 24px;
+     }
+    .hidden{
+     display: none;
+    }
+    #btn{
+     justify-content: space-between;
+     margin-left: 15px;
+     margin-right: 15px;
+    }
+    td i{
+      color: green;
+      margin: 5px;
+    }
+    td i:hover{
+      color: red;
+    }
+  </style>
+ 
+  <div class="main-panel">
+   <div class="content-wrapper">
+     <div class="page-header">
+       <h3 class="page-title">Client</h3>
+       <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url "index" %}">Acceuil</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Clients</li>
+         </ol>
+       </nav>
+     </div>
+     <div class="row">
+       
+       
+       
+      
+       <div class="col-12 grid-margin">
+         <div class="card">
+           <div class="card-body" id="form-container">
+             <h4 class="card-title">Ajouter un nouveau client</h4>
+             
+
+             
+
+             
+           
+
+
+          <form action="{% url 'client' %}" method="post">
+            {% csrf_token %}
+        
+            <div class="form-group row">
+                
+                <div class="col-sm-6">
+                    <label>Nom</label>
+                    {{ form.nom }}
+                </div>
+                
+                <div class="col-sm-6">
+                    <label>Prenom</label>
+                    {{ form.prenom }}
+                </div>
+            </div>
+        
+                <div class="form-group row">
+                    
+                    <div class="col-sm-6">
+                      <label>Email</label>
+                        {{ form.email }}
+                    </div>
+                    
+                    <div class="col-sm-3">
+                      <label>Tel</label>
+                        {{ form.tel }}
+                    </div>
+                    
+                    <div class="col-sm-3">
+                      <label>Adresse</label>
+                        {{ form.adresse }}
+                    </div>
+                </div>
+            
+        
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="Créer" class="btn btn-primary" id="btn">
+                </div>
+            </div>
+        </form>
+           </div>
+         </div>
+       </div> 
+     </div>
+
+
+
+     
+      {% include "Client/list_client.html" %}
+
+
+
+
+    </div>
+</div>
+
+
+   {% endblock  %}

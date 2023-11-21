@@ -1,0 +1,54 @@
+<form action="" method="post" id="forms">
+    {% csrf_token %}
+
+    <div class="form-group row">
+        
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="libele">Libelle</label>
+                <input type="text" class="form-control" id="libelle" name="libelle" value="{{ produit.libelle }}">
+            </div>
+        </div>
+        
+        <div class="col-sm-6">
+            <label for="stock">Stock</label>
+            <input type="text" class="form-control" id="stock" name="stock" value="{{ produit.stock }}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="position">Position</label>
+                <select name="position" id="position" class="form-control">
+                    <option value="avant" {% if produit.position == 'avant' %}selected{% endif %}>Avant</option>
+                    <option value="arriere" {% if produit.position == 'arriere' %}selected{% endif %}>Arriere</option>
+                    <option value="null" {% if produit.position == 'null' %}selected{% endif %}>Null</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="couleur">Couleur</label>
+                <select name="couleur" id="couleur" class="form-control">
+                    <option value="blanc" {% if produit.couleur == 'blanc' %}selected{% endif %}>Blanc</option>
+                    <option value="autre" {% if produit.couleur == 'autre' %}selected{% endif %}>Autre</option>
+                    <option value="null" {% if produit.couleur == 'null' %}selected{% endif %}>Null</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" 
+            value="Modifier" 
+            class="btn btn-primary" 
+            id="btn"
+            hx-post="{% url "modifier_produit" produit.id %}"
+            hx-target="#tbody"
+            hx-swap="outerHTML">
+        </div>
+    </div>
+</form>
+

@@ -1,0 +1,97 @@
+ <!-- partial -->
+ {% extends "base.html" %}
+ {% block content %}
+ 
+
+
+ <style>
+
+  #date{
+    position: relative;
+    right: 10px;
+  }
+  
+ #div{
+  display: flex;
+  justify-content: space-between;
+ }
+ #div1{
+  display: flex;
+  justify-content: space-between;
+ }
+  #select{
+    position: relative;
+    left: 300px;
+  }
+  #resetTable{
+    position: relative;
+    left: 400px;
+  }
+    #recherche{
+        margin: 10px;
+  }
+     #btn{
+      position: relative;
+      right: 24px;
+     }
+    .hidden{
+     display: none;
+    }
+    #btn{
+     justify-content: space-between;
+     margin-left: 15px;
+     margin-right: 15px;
+    }
+    td i{
+      color: green;
+      margin: 5px;
+    }
+    td i:hover{
+      color: red;
+    }
+  </style>
+ 
+  <div class="main-panel">
+   <div class="content-wrapper">
+     <div class="page-header">
+       <h3 class="page-title">Produits</h3>
+       <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url "index" %}">Acceuil</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Produits</li>
+         </ol>
+       </nav>
+     </div>
+     <div class="row">
+       
+       
+       
+      
+       <div class="col-12 grid-margin">
+         <div class="card">
+           <div class="card-body" id="form-container">
+             <h4 class="card-title">Ajouter un nouveau produit</h4>
+             
+
+             {% include "Produit/form.html" %}
+
+             
+                
+           </div>
+         </div>
+       </div> 
+     </div>
+
+
+
+     
+      {% include "Produit/list_produit.html" %}
+
+
+
+
+    </div>
+</div>
+
+
+   {% endblock  %}

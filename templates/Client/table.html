@@ -1,0 +1,27 @@
+<tbody id="tbody" >
+    {% for f in clients %}
+    <tr>
+       
+       
+        <td>{{f.nom}}</td>
+        <td>{{f.prenom}}</td>
+        <td>{{f.email}}</td>
+      <td> {{f.tel}}</td>
+      <td> {{f.adresse}}</td>
+      
+      <td >              
+        <a href=""
+        hx-delete="{% url 'sup_fact' f.id %}"
+        hx-confirm="Etes-vous de sure de vouloir suprimer cette facture?"
+        hx-target="closest tr" 
+        hx-swap="outerHTML" >
+        <i class="fas fa-trash"></i>
+        </a>
+      </td>
+      
+    </tr>
+    {% endfor %}
+  
+  
+    
+  </tbody>

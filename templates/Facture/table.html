@@ -1,0 +1,36 @@
+<tbody id="tbody" >
+    {% for f in factures %}
+    <tr>
+       <td>#{{f.id}}</td>
+       <td> {{f.date}}</td>
+       <td>{{f.client.nom}} {{f.client.prenom}}</td>
+     
+      <td> {{f.client.tel}}</td>
+      <td> {{f.client.adresse}}</td>
+      <td> {{f.totaux}}</td>
+      
+      <td>
+        <div class="badge {% if f.status == 'Payé' %}badge-outline-success{% else %}badge-outline-danger{% endif %}">
+          {{ f.status }}
+        </div>
+      </td>
+      <td >
+        <a href="{% url "detail_facture" f.id %}">
+          <i class="fas fa-eye"></i>
+        </a>
+      
+        <a href=""
+        hx-delete="{% url 'sup_fact' f.id %}"
+        hx-confirm="Etes-vous de sure de vouloir suprimer cette facture?"
+        hx-target="closest tr" 
+        hx-swap="outerHTML" >
+        <i class="fas fa-trash"></i>
+        </a>
+      </td>
+      
+    </tr>
+    {% endfor %}
+  
+  
+    
+  </tbody>

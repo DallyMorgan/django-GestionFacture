@@ -1,0 +1,215 @@
+ <!-- partial -->
+
+
+ <style>
+    .hidden{
+     display: none;
+    }
+    #btn{
+     justify-content: space-between;
+     margin-left: 15px;
+     margin-right: 15px;
+    }
+  </style>
+ 
+  <div class="main-panel">
+   <div class="content-wrapper">
+     <div class="page-header">
+       <h3 class="page-title">Factures </h3>
+       <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url "index" %}">Acceuil</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Factures</li>
+         </ol>
+       </nav>
+     </div>
+     <div class="row">
+       
+       
+       
+      
+       <div class="col-12 grid-margin">
+         <div class="card">
+           <div class="card-body" id="form-container">
+             <h4 class="card-title">Creer une facture</h4>
+             <form class="form-sample" method="POST" id="facture-form">
+               {% csrf_token %}
+               {% comment %} <p class="card-description"> Personal info </p> {% endcomment %}
+               <div class="row" >
+                 <div class="col-md-6">
+                   <div class="form-group">
+                     <label class="col-sm-3 col-form-label">Nom du client</label>                 
+                     <div class="col-sm-12">
+                       {{ facture_form.client }}
+                     </div>
+                   </div>
+                 </div>
+                 <div class="col-md-6">
+                   <div class="form-group">
+                     <label class="col-sm-3 col-form-label">Status</label>
+                     <div class="col-sm-12">
+                       {{ facture_form.status }}
+                     </div>
+                   </div>
+                 </div>
+               </div>
+ 
+ 
+               <div class="row">
+                 <div class="col-md-6">
+                   <div class="form-group">
+                     <label class="col-sm-3 col-form-label">produit</label>
+                     <div class="col-sm-12">
+                       {{ produit_facture_formset.forms.0.id }}
+                       {% comment %} {{ produit_facture_formset.forms.0.produit.label_tag }} {% endcomment %}
+                       {{ produit_facture_formset.forms.0.produit }}
+                       {% for error in produit_facture_formset.forms.0.produit.errors %}
+                         <p class="text-danger">{{ error }}</p>
+                       {% endfor %}
+                     </div>
+                   </div>
+                 </div>
+                 <div class="col-md-3">
+                   <div class="form-group">
+                     <label class="col-sm-3 col-form-label">Qté</label>
+                     <div class="col-sm-12">
+                       {{ produit_facture_formset.forms.0.id }}
+ 
+                       {% comment %} {{ produit_facture_formset.forms.0.quantite.label_tag }} {% endcomment %}
+                       {{ produit_facture_formset.forms.0.quantite }}
+                       {% for error in produit_facture_formset.forms.0.quantite.errors %}
+                         <p class="text-danger">{{ error }}</p>
+                       {% endfor %}                  
+                     </div>  
+                   </div>
+                 </div>
+                 <div class="col-md-3">
+                   <div class="form-group">
+                     <label class="col-sm-3 col-form-label">prix</label>
+                     <div class="col-sm-12">
+                       {{ produit_facture_formset.forms.0.id }}
+                       {% comment %} {{ produit_facture_formset.forms.0.produit.label_tag }} {% endcomment %}
+                       {{ produit_facture_formset.forms.0.prix}}
+                       {% for error in produit_facture_formset.forms.0.prix.errors %}
+                         <p class="text-danger">{{ error }}</p>
+                       {% endfor %}
+                     </div>
+                   </div>
+                 </div>             
+               </div>
+ 
+ 
+ 
+ 
+               {% for form in produit_facture_formset.forms|slice:"1:" %}
+               <div class="row hidden"  id="item-{{ forloop.counter }}">
+                 <div class="col-md-6">
+                   <div class="form-group">
+                     <label class="col-sm-3 col-form-label">produit</label>
+                     <div class="col-sm-12">
+                       {{ form.id }}
+                       {% comment %} {{ produit_facture_formset.forms.0.produit.label_tag }} {% endcomment %}
+                       {{ form.produit }}
+                       {% for error in form.produit.errors %}
+                         <p class="text-danger">{{ error }}</p>
+                       {% endfor %}
+                     </div>
+                   </div>
+                 </div>
+                 <div class="col-md-3">
+                   <div class="form-group">
+                     <label class="col-sm-3 col-form-label">Qté</label>
+                     <div class="col-sm-12">
+                       {% comment %} {{ produit_facture_formset.forms.0.quantite.label_tag }} {% endcomment %}
+                       {{ form.quantite }}
+                       {% for error in form.quantite.errors %}
+                         <p class="text-danger">{{ error }}</p>
+                       {% endfor %}
+                     </div>  
+                   </div>
+                 </div>
+                 <div class="col-md-3">
+                   <div class="form-group">
+                     <label class="col-sm-3 col-form-label">prix</label>
+                     <div class="col-sm-12">
+                       {% comment %} {{ produit_facture_formset.forms.0.produit.label_tag }} {% endcomment %}
+                       {{ form.prix}}
+                       {% for error in form.prix.errors %}
+                         <p class="text-danger">{{ error }}</p>
+                       {% endfor %}
+                     </div>
+                   </div>
+                 </div> 
+               </div>
+               {% endfor %}
+         
+ 
+               
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+               <br><div class="row" id="btn">
+                 
+                   <button type="submit"
+                    class=" btn btn-primary"
+                     {% comment %} hx-post="{% url 'index' %}" 
+                     hx-target="#t-body" 
+                     hx-swap="outerHtml" {% endcomment %}
+                    >Enregistrer
+                   </button>
+                   
+                     <button type="button" id="ajout_form" class="btn btn-outline-primary" >+</button>
+                   
+                 {% if messages %}          
+                   {% for message in messages %}
+                     <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                   {% endfor %}           
+                {% endif %}
+               </div>
+               
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+             </form>
+           </div>
+         </div>
+       </div>
+       
+      
+     </div>
+   </div>
+ {% comment %} 
+   <script>
+     document.addEventListener("DOMContentLoaded", function() {
+         // Ciblez le formulaire par son ID
+         const form = document.getElementById("facture-form");
+     
+         // Écoutez l'événement de soumission du formulaire
+         form.addEventListener("submit", function(event) {
+             event.preventDefault(); // Empêchez la soumission du formulaire
+     
+             // Récupérez les données du formulaire
+             const formData = new FormData(form);
+     
+             // Créez un objet JSON à partir des données du formulaire
+             const formDataObject = {};
+             formData.forEach(function(value, key) {
+                 formDataObject[key] = value;
+             });
+     
+             // Affichez les données dans la console
+             console.log("Données du formulaire:", formDataObject);
+         });
+     });
+     </script> {% endcomment %}
+   <!-- content-wrapper ends -->

@@ -1,0 +1,47 @@
+{% block form %}
+
+<style>
+    #msg{
+        display: flex;
+        justify-content: space-between;
+    } 
+</style>
+
+<form action="{% url 'produit' %}" method="post" id="forms">
+    {% csrf_token %}
+
+    <div class="form-group row">
+        
+        <div class="col-sm-6">
+            <label>Libelle </label>
+            {{ form.libelle }}
+        </div>
+        
+        <div class="col-sm-6">
+            <label>Stock</label>
+            {{ form.stock }}
+        </div>
+    </div>
+    <div class="form-group row">
+        
+        <div class="col-sm-6">
+            <label>Couleur </label>
+            {{ form.couleur }}
+        </div>
+        
+        <div class="col-sm-6">
+            <label>Position</label>
+            {{ form.position }}
+        </div>
+    </div>           
+
+    <div class="form-group row" id="msg">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" value="Créer" class="btn btn-primary" id="btn">
+        </div>
+        
+    </div>
+</form>
+
+
+{% endblock  %}

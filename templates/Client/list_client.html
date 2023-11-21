@@ -1,0 +1,94 @@
+{% block list_facture %}
+
+
+
+
+
+
+
+<div class="row ">
+    <div class="col-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Liste de clients</h4>
+          <div id="div">
+          <form class="form-inline" method="GET" >
+            <div class="form-group mb-2">
+              <label for="recherche" class="sr-only" id="recherche">Recherche</label>
+              <input type="text" 
+              id="recherche" 
+              class="form-control" 
+              name="c" value="{{ query }}" 
+              placeholder="Rechercher..."
+              hx-get='{% url "liste_client" %}'
+              hx-target="#tbody" 
+              hx-swap="outerHTML" >
+            </div>           
+            <button type="submit" 
+            class="btn btn-primary mb-2" 
+            name="c" value="{{ query }}" 
+            placeholder="Rechercher..."
+            hx-get='{% url "liste_client" %}'
+            hx-target="#tbody" 
+            hx-swap="outerHTML">Rechercher</button>
+          </form>
+          
+        </div>
+        </div>
+        
+    
+          <div class="table-responsive">
+            <table class="table" id="table-factures">
+              <thead>
+                <tr>
+                 
+                  
+                  <th> Nom  </th>
+                  <th> prenom</th>
+                  <th> Mail </th>
+                  <th> Tel</th>                   
+                  <th> Adresse</th>
+                  <th> Actions </th>
+                </tr>
+              </thead>
+              <tbody id="tbody" >
+                {% for f in clients %}
+                <tr>
+                   
+                   
+                    <td>{{f.nom}}</td>
+                    <td>{{f.prenom}}</td>
+                    <td>{{f.email}}</td>
+                  <td> {{f.tel}}</td>
+                  <td> {{f.adresse}}</td>
+                  
+                  <td >              
+                    <a href=""
+                    hx-delete="{% url 'sup_client' f.id %}"
+                    hx-confirm="Etes-vous de sure de vouloir suprimer ce client?"
+                    hx-target="closest tr" 
+                    hx-swap="outerHTML" >
+                    <i class="fas fa-trash"></i>
+                    </a>
+                  </td>
+                  
+                </tr>
+                {% endfor %}
+              
+              
+                
+              </tbody>
+              
+              
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+    
+
+
+{% endblock %}

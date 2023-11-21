@@ -1,0 +1,31 @@
+<tbody id="tbody" >
+    {% for f in produits %}
+    <tr>
+       
+       
+        <td>{{f.libelle}}</td>
+        <td>{{f.stock}}</td>
+      <td> {{f.position}}</td>
+      <td> {{f.couleur}}</td>
+      
+      <td >              
+        <a href=""
+        hx-delete="{% url 'sup_produit' f.id %}"
+        hx-confirm="Etes-vous de sure de vouloir suprimer ce produit?"
+        hx-target="closest tr" 
+        hx-swap="outerHTML" >
+        <i class="fas fa-trash"></i>
+        </a>
+        <a hx-get="{% url 'afficher_produit' f.id %}"
+            hx-target="#forms"
+            hx-swap="outerHTML">
+            <i class="fas fa-edit"></i>
+        </a>
+      </td>
+      
+    </tr>
+    {% endfor %}
+  
+  
+    
+  </tbody>

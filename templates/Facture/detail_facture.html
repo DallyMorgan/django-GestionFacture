@@ -1,0 +1,193 @@
+ <!-- partial -->
+ {% extends "base.html" %}
+ {% block content %}
+ 
+
+
+ <style>
+     #btn{
+      position: relative;
+      right: 24px;
+     }
+    .hidden{
+     display: none;
+    }
+    #btn{
+     justify-content: space-between;
+     margin-left: 15px;
+     margin-right: 15px;
+    }
+    td i{
+      color: green;
+      margin: 5px;
+    }
+    td i:hover{
+      color: red;
+    }
+  </style>
+ 
+  <div class="main-panel">
+   <div class="content-wrapper">
+     <div class="page-header">
+       <h3 class="page-title">Factures </h3>
+       <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url "index" %}">Acceuil</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Factures</li>
+         </ol>
+       </nav>
+     </div>
+      
+
+
+     <div class="container">
+        <style>
+            table{
+                border: solid 1px black;
+            }
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                background-color: white;
+                color: black;
+            }
+            .header {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .invoice-details {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                
+            }
+            .invoice-details div {
+                
+                display: flex;
+                flex-direction: column;
+                
+            }
+            .items-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .items-table th, .items-table td {
+                border: 1px solid #ccc;
+                padding: 10px;
+                text-align: center;
+            }
+            .total {
+                text-align: right;
+                margin-top: 20px;
+                font-weight: bold;
+            }
+           
+        </style>
+    
+    
+        <div class="header">
+            <h1>Facture #{{facture.id}}</h1>
+            <p>Date: {{facture.date}}</p>
+        </div>
+        <div class="invoice-details">
+            <div class="etp">
+                
+                <p><b></a>Votre entreprise</b></p>
+                <p><b>Adresse</b></p>
+                <p><b>Email: contact@example.com</b></p>
+            </div>
+            <div class="clt">
+                
+                <p><b>Nom:{{facture.client.nom}}  {{facture.client.prenom}}</b></p>
+                <p><b>Adresse:{{facture.client.tel}}</b></p>
+                <p><b>Email: {{facture.client.email}}</b></p>
+            </div>
+        </div>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in facture.produitfacture_set.all %}
+                <tr>
+                    <td>{{f.produit.libelle}}</td>
+                    <td>{{f.quantite}}</td>
+                    <td>{{f.prix}} Fcfa</td>
+                    <td>{{f.montant}}</td>
+                </tr>
+                {% endfor %}
+                <!-- Ajoutez d'autres lignes d'articles ici -->
+            </tbody>
+        </table>
+        <div class="total">
+            <p>Total à payer: {{facture.totaux}}Fcfa</p>
+        </div>
+    
+    
+    </div>
+        
+          
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+
+            
+
+
+
+
+
+            
+            
+            
+
+
+
+
+            
+            
+           </div>
+         </div>
+       </div>
+       
+                
+
+
+
+
+
+      
+     </div>
+
+
+    </div>
+</div>
+
+
+   {% endblock  %}

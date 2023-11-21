@@ -1,0 +1,263 @@
+ <!-- partial -->
+ {% extends "base.html" %}
+ {% block content %}
+ 
+
+
+ <style>
+
+  #date{
+    position: relative;
+    right: 10px;
+  }
+  
+ #div{
+  display: flex;
+  justify-content: space-between;
+ }
+ #div1{
+  display: flex;
+  justify-content: space-between;
+ }
+  #select{
+    position: relative;
+    left: 300px;
+  }
+  #resetTable{
+    position: relative;
+    left: 400px;
+  }
+    #recherche{
+        margin: 10px;
+  }
+     #btn{
+      position: relative;
+      right: 24px;
+     }
+    .hidden{
+     display: none;
+    }
+    #btn{
+     justify-content: space-between;
+     margin-left: 15px;
+     margin-right: 15px;
+    }
+    td i{
+      color: green;
+      margin: 5px;
+    }
+    td i:hover{
+      color: red;
+    }
+  </style>
+ 
+  <div class="main-panel">
+   <div class="content-wrapper">
+     <div class="page-header">
+       <h3 class="page-title">Factures </h3>
+       <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url "index" %}">Acceuil</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Factures</li>
+         </ol>
+       </nav>
+     </div>
+     <div class="row">
+       
+       
+       
+      
+       <div class="col-12 grid-margin">
+         <div class="card">
+           <div class="card-body" id="form-container">
+             <h4 class="card-title">Creer une facture</h4>
+             
+
+             
+
+             {% comment %} <form action="{% url 'facture' %}" method="post">
+              {% csrf_token %}
+          
+              {{ facture_form.as_p }}
+          
+              {{ produit_facture_formset.management_form }}
+          
+              {% for form in produit_facture_formset.forms %}
+                  {{ form.as_table }}
+              {% endfor %}
+          
+              <input type="submit" value="Créer">
+          </form> {% endcomment %}
+           
+
+
+          <form action="{% url 'facture' %}" method="post">
+            {% csrf_token %}
+        
+            <div class="form-group row">
+                
+                <div class="col-sm-6">
+                    <label>Client</label>
+                    {{ facture_form.client }}
+                </div>
+                
+                <div class="col-sm-6">
+                    <label>Status</label>
+                    {{ facture_form.status }}
+                </div>
+            </div>
+        
+            {{ produit_facture_formset.management_form }}
+        
+            {% for form in produit_facture_formset.forms %}
+                <div class="form-group row">
+                    
+                    <div class="col-sm-6">
+                      <label>Produit</label>
+                        {{ form.produit }}
+                    </div>
+                    
+                    <div class="col-sm-3">
+                      <label>Prix</label>
+                        {{ form.prix }}
+                    </div>
+                    
+                    <div class="col-sm-3">
+                      <label>Quantité</label>
+                        {{ form.quantite }}
+                    </div>
+                </div>
+            {% endfor %}
+        
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="Créer" class="btn btn-primary" id="btn">
+                </div>
+            </div>
+        </form>
+        
+          
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+
+            
+
+
+
+
+
+            
+            
+            
+
+
+
+
+            
+            
+           </div>
+         </div>
+       </div>
+       
+                
+
+
+
+
+
+      
+     </div>
+
+
+
+     {% comment %} <div class="row ">
+      <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Liste de factures</h4>
+            <form class="form-inline">
+              <div class="form-group mb-2">
+                <label for="recherche" class="sr-only" id="recherche">Recherche</label>
+                <input type="text" class="form-control" id="recherche" placeholder="Recherche">
+              </div>
+              <button type="submit" class="btn btn-primary mb-2">Rechercher</button>
+            </form>
+            <div class="table-responsive">
+              <table class="table" id="table-factures">
+                <thead>
+                  <tr>
+                    <th> ID </th>
+                    <th> Date </th>
+                    <th> Nom  </th>
+                 
+                    <th> Numero </th>
+                    <th> Adresse </th>
+                    <th> Total </th>                   
+                    <th> Status </th>
+                    <th> Actions </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for f in factures %}
+                  <tr>
+                     <td>{{f.id}}</td>
+                     <td> {{f.date}}</td>
+                     <td>{{f.client.nom}} {{f.client.prenom}}</td>
+                   
+                    <td> {{f.client.tel}}</td>
+                    <td> {{f.client.adresse}}</td>
+                    <td> {{f.totaux}}</td>
+                    
+                    <td>
+                      <div class="badge {% if f.status == 'Payé' %}badge-outline-success{% else %}badge-outline-danger{% endif %}">
+                        {{ f.status }}
+                      </div>
+                    </td>
+                    <td >
+                      <a href="{% url "detail_facture" f.id %}">
+                        <i class="fas fa-eye"></i>
+                      </a>
+                    
+                      <a href=""
+                      hx-delete="{% url 'sup_fact' f.id %}"
+                      hx-confirm="Etes-vous de sure de vouloir suprimer cette facture?"
+                      hx-target="closest tr" 
+                      hx-swap="outerHTML" >
+                      <i class="fas fa-trash"></i>
+                      </a>
+                    </td>
+                    
+                  </tr>
+                  {% endfor %}
+                
+                
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+       
+      </div> {% endcomment %}
+      {% include "Facture/list_facture.html" %}
+    </div>
+</div>
+
+
+   {% endblock  %}
