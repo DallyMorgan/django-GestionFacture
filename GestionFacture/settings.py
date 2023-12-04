@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'Factures',
     # "django_htmx",
     # 'GestFactures',
-     #'widget_tweaks'
+    #'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -73,7 +73,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'GestionFacture.wsgi.application'
+# WSGI_APPLICATION = 'GestionFacture.wsgi.application'
+
 
 
 # Database
