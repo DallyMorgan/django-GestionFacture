@@ -16,6 +16,9 @@ urlpatterns = [
     path('tri_facture/', views.tri_facture, name='tri_facture'),
     path('detail-facture/<int:id>', views.detail_facture, name='detail_facture'),
     path('suprimer_facture/<int:id>/', views.sup_fact, name='sup_fact'),
+    path('facture_créé/', views.facture_cree, name='facture_cree'),
+    
+
 
     #routes pour client
     path('creer_client/', views.client, name='client'),

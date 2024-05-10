@@ -1,0 +1,180 @@
+ <!-- partial -->
+ {% extends "base.html" %}
+ {% block content %}
+ 
+
+
+ <style>
+
+  #date{
+    position: relative;
+    right: 10px;
+  }
+  
+ #div{
+  display: flex;
+  justify-content: space-between;
+ }
+ #div1{
+  display: flex;
+  justify-content: space-between;
+ }
+  #select{
+    position: relative;
+    left: 300px;
+  }
+  #resetTable{
+    position: relative;
+    left: 400px;
+  }
+    #recherche{
+        margin: 10px;
+  }
+     #btn{
+      position: relative;
+      right: 24px;
+     }
+    .hidden{
+     display: none;
+    }
+    #btn{
+     justify-content: space-between;
+     margin-left: 15px;
+     margin-right: 15px;
+    }
+    td i{
+      color: green;
+      margin: 5px;
+    }
+    td i:hover{
+      color: red;
+    }
+
+    #bbt{
+      justify-content: space-between;
+    }
+  </style>
+ 
+  <div class="main-panel">
+   <div class="content-wrapper">
+     <div class="page-header">
+       <h3 class="page-title">Factures </h3>
+       <nav aria-label="breadcrumb">
+         <ol class="breadcrumb">
+           <li class="breadcrumb-item"><a href="{% url "index" %}">Acceuil</a></li>
+           <li class="breadcrumb-item active" aria-current="page">Factures</li>
+         </ol>
+       </nav>
+     </div>
+     <div class="row">
+       
+       
+       
+      
+       <div class="col-12 grid-margin">
+         <div class="card">
+           <div class="card-body" id="form-container">
+             <h4 class="card-title">Creer une facture</h4>
+             
+
+             
+
+           
+           
+
+
+          <form action="{% url 'facture_cree' %}" method="post">
+            {% csrf_token %}
+        
+            <div class="form-group row">
+                
+                <div class="col-sm-6">
+                    <label>Client</label>
+                    <select name="client" id="client" class="form-control" required>
+                        {% for c in clients %}
+                            <option value="{{ c.id }}">{{ c.nom }} {{ c.prenom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="col-sm-6">
+                    <label>Status</label>
+                    <select name="status" id="status" class="form-control" required>
+                        
+                            <option value="Payé">Payé</option>
+                            <option value="Impayé">Impayé</option>
+                        
+                    </select>
+
+
+                </div>
+            </div>
+        
+            
+                <div class="form-group row" id="produit-form">
+                    
+                    <div class="col-sm-6">
+                        <label>Produit</label>
+                        <select name="produit" id="produit" class="form-control" required>
+                        {% for produit in produits %}
+                            <option value="{{ produit.id }}">{{ produit.libelle}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-sm-3">
+                      <label>Prix</label>
+                        <input type="number" class="form-control" name="prix" step="0.01" required min="500">
+                    </div>
+                    
+                    <div class="col-sm-3">
+                        <label>Quantite</label>
+                          <input type="number" class="form-control" name="quantite" required min="1">
+                      </div>
+                    
+                </div>
+            
+        
+            <div class="form-group" id="bbt">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="Créer" class="btn btn-primary" id="btn">
+                    <button id="add-form" class="btn btn-primary" type="button">Ajouter un produit</button>
+                </div>
+              
+            </div>
+        </form>
+
+           </div>
+         </div>
+       </div>
+
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let addButton = document.getElementById('add-form');
+            let formContainer = document.getElementById('bbt');
+            let produitForm = document.getElementById('produit-form');
+    
+            addButton.addEventListener('click', function () {
+                // Clonez le produit-form
+                let clonedForm = produitForm.cloneNode(true);
+    
+                // Effacez les valeurs des champs clonés
+                clonedForm.querySelectorAll('select, input').forEach(function (element) {
+                    element.value = '';
+                });
+    
+                // Ajoutez le formulaire cloné à la fin du conteneur
+                formContainer.parentNode.insertBefore(clonedForm, formContainer);
+            });
+        });
+    </script>
+    
+      
+     </div>
+
+      {% include "Facture/list_facture.html" %}
+    </div>
+</div>
+
+
+   {% endblock  %}

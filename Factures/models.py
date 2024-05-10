@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.urls import reverse
-from django.db import IntegrityError, models
+from django.db import models
+from simple_history.models import HistoricalRecords
 
 class Produit(models.Model):
     
@@ -21,6 +22,7 @@ class Produit(models.Model):
     stock = models.PositiveIntegerField()
     couleur = models.CharField(choices=COULEUR_CHOICES, max_length=20, default="null")
     position = models.CharField(choices=POSITION_CHOICES, max_length=20, default="null")
+    history = HistoricalRecords()
 
     def __str__(self):
         return str (self.libelle)
@@ -32,6 +34,7 @@ class Client(models.Model):
     email = models.EmailField(null=True, blank=True)
     tel = models.CharField(max_length=20)
     adresse = models.CharField(null=True, blank=True, max_length=80)
+    history = HistoricalRecords()
     def __str__(self):
         return f'{self.nom} {self.prenom} '
     
@@ -47,6 +50,7 @@ class Facture(models.Model):
     client = models.ForeignKey(Client,on_delete= models.CASCADE)
     date = models.DateField(auto_now=True)
     status = models.CharField(choices=choice_status,max_length=20)
+    history = HistoricalRecords()
    
     def __str__(self):
         return f'Facture de {self.client.nom} {self.client.prenom} '
@@ -78,6 +82,7 @@ class ProduitFacture(models.Model):
     prix = models.DecimalField(max_digits=9, decimal_places=2)
     montant = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
     facture = models.ForeignKey(Facture, on_delete=models.CASCADE)
+    history = HistoricalRecords()
 
     def __str__(self):
         return f'Facture de {self.facture.client.nom} {self.facture.client.prenom}  '

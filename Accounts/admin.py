@@ -1,8 +1,16 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
+from simple_history import register
+from simple_history.admin import SimpleHistoryAdmin
 
-class CustomUserAdmin(UserAdmin):
+
+
+
+
+register(CustomUser)
+
+class CustomUserAdmin(UserAdmin, SimpleHistoryAdmin):
     # Liste des attributs à afficher dans la liste des utilisateurs
     list_display = ['username', 'email', 'first_name', 'last_name', 'avatar', 'is_staff']
 
@@ -20,7 +28,8 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'avatar')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
+        ('Dates importantes', {'fields': ('last_login', 'date_joined')}),
     )
 
 admin.site.register(CustomUser, CustomUserAdmin)
+# admin.site.register(CustomUser, SimpleHistoryAdmin)

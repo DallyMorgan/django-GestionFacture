@@ -33,14 +33,14 @@
             hx-swap="outerHTML">Rechercher</button>
           </form>
           <form action="">
-          <div class="form-group" id="div1">
+          {% comment %} <div class="form-group" id="div1">
             <input type="date" name="date"
              class="form-control"id="date">
             <button class="btn btn-primary mb-2"
             hx-get="{% url 'tri_facture' %}"
             hx-target='#tbody'
             hx-swap='outerHTML'>Rechercher</button>
-          </div>
+          </div> {% endcomment %}
         </form>
         </div>
         </div>

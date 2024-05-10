@@ -287,32 +287,11 @@ def sup_fact(request, id):
         return HttpResponse(status=404)
 
 
-@login_required
-def facture(request):
-    user = request.user
-    
-    factures = Facture.objects.all().order_by('-date')[:5]
-    if request.method == 'POST':
-        facture_form = FactureForm(request.POST)
-        produit_facture_formset = ProduitFactureFormSet(request.POST, instance=Facture())
 
-        if facture_form.is_valid() and produit_facture_formset.is_valid():
-            facture = facture_form.save()
-            produit_facture_formset.instance = facture
-            produit_facture_formset.save()
-            return redirect('facture')
 
-    else:
-        facture_form = FactureForm()
-        produit_facture_formset = ProduitFactureFormSet(instance=Facture())
 
-    context = {
-        'facture_form': facture_form,
-        'produit_facture_formset': produit_facture_formset,
-        'factures': factures,
-        'user': user,
-    }
-    return render(request, 'Facture/t.html', context)
+
+
 
 @login_required
 @require_http_methods(['GET'])
@@ -409,3 +388,90 @@ def sup_client(request, id):
         return HttpResponse('')
     except Client.DoesNotExist:
         return HttpResponse(status=404)
+    
+
+def facture(request):
+    clients = Client.objects.all()
+    factures = Facture.objects.all().order_by('-date')[:5]
+    # facture = Facture.objects.all()
+    produits = Produit.objects.all()
+    user = request.user
+
+    # if request.method == 'POST':
+    #     client = request.POST.get("client")
+    #     status = request.POST.get("status")
+    #     produits = request.POST.getlist("produit")
+    #     print(produits)
+
+    #     # Faites quelque chose avec les données récupérées...
+
+    context = {
+        'clients': clients,
+        'factures': factures,
+        # 'facture': facture,
+        'produits': produits,
+        'user': user,
+    }
+
+    return render(request, "Facture/facture.html", context)
+
+
+def facture_cree(request):
+    user = request.user
+
+    if request.method == 'POST':
+        client_id = request.POST.get("client")
+        status = request.POST.get("status")
+        produits = request.POST.getlist("produit")
+        prix_list = request.POST.getlist("prix")
+        quantite_list = request.POST.getlist("quantite")
+
+        # Créer un objet Facture
+        facture = Facture.objects.create(
+            client_id=client_id,
+            status=status
+        )
+
+        produit_facture_list = []
+
+        # Parcourir les produits, prix et quantités
+        for produit_id, prix_produit, quantite_produit in zip(produits, prix_list, quantite_list):
+            # Récupérer l'objet Produit existant avec l'ID donné
+            produit = Produit.objects.get(id=produit_id)
+
+            # Initialiser la variable prix
+            prix = 0.0
+
+            try:
+                # Convertir la chaîne en un nombre
+                prix = float(prix_produit)
+            except ValueError:
+                # La conversion a échoué, peut-être gérer cette situation d'une manière appropriée
+                # Vous pouvez laisser la valeur par défaut 0.0 ou gérer différemment
+                print("erreur lors de la coonversion")
+            
+            montant = prix * float(quantite_produit)
+
+            produit_facture = ProduitFacture(
+                facture=facture,
+                produit=produit,
+                prix=prix,
+                quantite=quantite_produit,
+                montant=montant
+            )
+
+            produit_facture_list.append(produit_facture)
+
+        # Utiliser bulk_create pour enregistrer tous les objets ProduitFacture en une seule requête
+        ProduitFacture.objects.bulk_create(produit_facture_list)
+        return redirect ('facture')
+
+        # Faites quelque chose avec les données récupérées...
+
+    context = {
+        'user': user,
+    }
+
+    return render(request, "Facture/facture.html", context)
+
+

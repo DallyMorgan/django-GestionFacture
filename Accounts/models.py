@@ -3,12 +3,19 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    id = models.BigAutoField(primary_key=True)
+    
     
 
     
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField("photo de profil", upload_to='avatars/', blank=True, null=True)
+    
+   
    
     
     def __str__(self):
-        return self.username
+        return self.nom
+    
+    class meta:
+
+        db_table = "Utilisateur"
+        verbose_name_plural = "Utilisateurs"

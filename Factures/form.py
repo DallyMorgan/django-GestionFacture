@@ -76,6 +76,6 @@ ProduitFactureFormSet = inlineformset_factory(
     Facture,
     ProduitFacture,
     form=ProduitFactureForm,
-    extra=3,  # Nombre initial de formulaires à afficher
+    extra=1,  # Nombre initial de formulaires à afficher
     can_delete=False,
 )
