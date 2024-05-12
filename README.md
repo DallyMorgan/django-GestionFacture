@@ -12,6 +12,7 @@ env\Scripts\activate.bat
 pip install requirements.txt
 
 4/ Demmarez le serveur
+
 python manage.py runserver
 
 
