@@ -25,9 +25,7 @@ from django.db.models import Count
 
 
 
-#fonctions liées  ux statistiques
-
-
+#Vues liées  ux statistiques
 
 def calcul_recette_totale(factures):
     factures = Facture.objects.all()  # Notez l'appel de méthode '()'
@@ -45,8 +43,7 @@ def calcul_taxe_totale(factures):
 
 
 def calcul_pourcentage_croissance_par_semaine(factures):
-    # Calculez le pourcentage de croissance par semaine
-    # Assurez-vous que vos factures ont une date
+    # le pourcentage de croissance par semaine
     if factures and factures[0].date:
         date_min = min(facture.date for facture in factures)
         date_max = max(facture.date for facture in factures)
@@ -56,12 +53,11 @@ def calcul_pourcentage_croissance_par_semaine(factures):
         pourcentage_par_semaine = round(pourcentage_croissance / duree_en_semaines, 0)
         return pourcentage_par_semaine
     else:
-        return 0  # Aucune facture avec une date
+        return 0 
     
 
 def calcul_pourcentage_croissance_par_semaine_taxe(factures):
-    # Calculez le pourcentage de croissance par semaine
-    # Assurez-vous que vos factures ont une date
+    # le pourcentage de croissance par semaine
     if factures and factures[0].date:
         date_min = min(facture.date for facture in factures)
         date_max = max(facture.date for facture in factures)
@@ -71,29 +67,26 @@ def calcul_pourcentage_croissance_par_semaine_taxe(factures):
         pourcentage_par_semaine_taxe = round(pourcentage_croissance / duree_en_semaines, 0)
         return pourcentage_par_semaine_taxe
     else:
-        return 0  # Aucune facture avec une date
+        return 0  
     
 
 def recette_mois(request):
-    # Obtenez toutes les factures
     factures = Facture.objects.all()
 
-    # Initialisez un dictionnaire pour stocker les recettes par mois
     recettes_par_mois = {}
 
-    # Itérez sur les factures et calculez les recettes par mois
+    
     for facture in factures:
         mois = facture.date.strftime('%Y-%m')  # Utilisez la date de la facture pour obtenir l'année et le mois
         montant_total = facture.totaux()  # Appelez la méthode totaux pour obtenir le montant total de la facture
 
-        # Si le mois n'existe pas encore dans le dictionnaire, ajoutez-le
+        
         if mois not in recettes_par_mois:
             recettes_par_mois[mois] = 0
 
-        # Ajoutez le montant total au mois correspondant
+        
         recettes_par_mois[mois] += montant_total
 
-    # Convertissez le dictionnaire en une liste de dictionnaires JSON
     recettes_json = [{'mois': mois, 'total_recettes': total} for mois, total in recettes_par_mois.items()]
 
     return JsonResponse(recettes_json, safe=False)
@@ -123,9 +116,7 @@ def index(request):
 
     mois = [entry['mois'].strftime('%b %Y') for entry in data]
     total_factures = [entry['total_factures'] for entry in data]
-
-    # Appel de la fonction recette_mois pour obtenir les données par mois
-    # recettes_mois = recette_mois()
+    
 
     context = {
         'user': user,
@@ -163,7 +154,7 @@ def detail_facture (request, id):
 
 
 
-#fonctions liées au modele Produit
+#Vues liées au modele Produit
 @login_required
 def produit(request):
     user = request.user
@@ -235,13 +226,13 @@ def modifier_produit(request, id):
     produits= Produit.objects.all
 
     if request.method == 'POST':
-        # Récupérez les données du formulaire POST
+        
         libelle = request.POST['libelle']
         stock = request.POST['stock']
         couleur = request.POST['couleur']
         position = request.POST['position']
 
-        # Mettez à jour les données du produit
+        
         produit.libelle = libelle
         produit.stock = stock
         produit.couleur = couleur
@@ -426,7 +417,7 @@ def facture_cree(request):
         prix_list = request.POST.getlist("prix")
         quantite_list = request.POST.getlist("quantite")
 
-        # Créer un objet Facture
+        # 
         facture = Facture.objects.create(
             client_id=client_id,
             status=status
@@ -434,20 +425,18 @@ def facture_cree(request):
 
         produit_facture_list = []
 
-        # Parcourir les produits, prix et quantités
+        # 
         for produit_id, prix_produit, quantite_produit in zip(produits, prix_list, quantite_list):
-            # Récupérer l'objet Produit existant avec l'ID donné
+            
             produit = Produit.objects.get(id=produit_id)
-
-            # Initialiser la variable prix
             prix = 0.0
 
             try:
-                # Convertir la chaîne en un nombre
+                
                 prix = float(prix_produit)
             except ValueError:
-                # La conversion a échoué, peut-être gérer cette situation d'une manière appropriée
-                # Vous pouvez laisser la valeur par défaut 0.0 ou gérer différemment
+                
+                
                 print("erreur lors de la coonversion")
             
             montant = prix * float(quantite_produit)
@@ -462,11 +451,9 @@ def facture_cree(request):
 
             produit_facture_list.append(produit_facture)
 
-        # Utiliser bulk_create pour enregistrer tous les objets ProduitFacture en une seule requête
+        
         ProduitFacture.objects.bulk_create(produit_facture_list)
         return redirect ('facture')
-
-        # Faites quelque chose avec les données récupérées...
 
     context = {
         'user': user,
