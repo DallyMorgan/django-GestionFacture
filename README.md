@@ -9,7 +9,7 @@ env\Scripts\activate.bat
 
 3/  Installez les packages nécessaires 
 
-pip install requirements.txt
+pip  install -r requirements.txt
 
 4/ Demmarez le serveur
 

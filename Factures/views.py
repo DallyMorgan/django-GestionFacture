@@ -28,14 +28,14 @@ from django.db.models import Count
 #Vues liées  ux statistiques
 
 def calcul_recette_totale(factures):
-    factures = Facture.objects.all()  # Notez l'appel de méthode '()'
+    factures = Facture.objects.all()  
     total = 0
     for facture in factures:
         total += facture.totaux()
     return total
 
 def calcul_taxe_totale(factures):
-    factures = Facture.objects.all()  # Notez l'appel de méthode '()'
+    factures = Facture.objects.all()  
     total = 0
     for facture in factures:
         total += facture.ttc()
@@ -77,8 +77,8 @@ def recette_mois(request):
 
     
     for facture in factures:
-        mois = facture.date.strftime('%Y-%m')  # Utilisez la date de la facture pour obtenir l'année et le mois
-        montant_total = facture.totaux()  # Appelez la méthode totaux pour obtenir le montant total de la facture
+        mois = facture.date.strftime('%Y-%m')  
+        montant_total = facture.totaux()  
 
         
         if mois not in recettes_par_mois:
@@ -130,7 +130,7 @@ def index(request):
         'recette_ht': recette_ht,
         'mois': mois,
         'total_factures': total_factures,
-        # 'recettes_mois': recettes_mois,  # Assurez-vous que cette variable est correcte
+        # 'recettes_mois': recettes_mois,  
     }
 
     return render(request, 'Statistique/stat.html', context)
@@ -146,10 +146,7 @@ def detail_facture (request, id):
 
     return render(request, 'Facture/detail_facture.html',{'user':user, 'facture':facture})
 
-# def client (request):
-#     user = request.user
 
-#     return render(request, 'Client/index.html',{'user':user})
 
 
 
